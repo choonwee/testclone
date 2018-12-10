@@ -1,56 +1,136 @@
 {% extends "layout.html" %}
 {% block content %}
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/contactus.css') }}">
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+    <script>
+$(function()
+{
+    function after_form_submitted(data)
+    {
+        if(data.result == 'success')
+        {
+            $('form#reused_form').hide();
+            $('#success_message').show();
+            $('#error_message').hide();
+        }
+        else
+        {
+            $('#error_message').append('<ul></ul>');
 
-    <div class="container">
-	<div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <div class="well well-sm">
-          <form class="form-horizontal" action="" method="post">
-          <fieldset>
-            <legend class="text-center">Contact us</legend>
+            jQuery.each(data.errors,function(key,val)
+            {
+                $('#error_message ul').append('<li>'+key+':'+val+'</li>');
+            });
+            $('#success_message').hide();
+            $('#error_message').show();
 
-            <!-- Name input-->
-            <div class="form-group">
-              <label class="col-md-3 control-label" for="name">Name</label>
-              <div class="col-md-9">
-                <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
-              </div>
+            //reverse the response on the button
+            $('button[type="button"]', $form).each(function()
+            {
+                $btn = $(this);
+                label = $btn.prop('orig_label');
+                if(label)
+                {
+                    $btn.prop('type','submit' );
+                    $btn.text(label);
+                    $btn.prop('orig_label','');
+                }
+            });
+
+        }//else
+    }
+
+	$('#reused_form').submit(function(e)
+      {
+        e.preventDefault();
+
+        $form = $(this);
+        //show some response on the button
+        $('button[type="submit"]', $form).each(function()
+        {
+            $btn = $(this);
+            $btn.prop('type','button' );
+            $btn.prop('orig_label',$btn.text());
+            $btn.text('Sending ...');
+        });
+
+
+                    $.ajax({
+                type: "POST",
+                url: 'handler.php',
+                data: $form.serialize(),
+                success: after_form_submitted,
+                dataType: 'json'
+            });
+
+      });
+});
+</script>
+
+    <div class="imagebg"></div>
+<div class="row " style="margin-top: 50px">
+    <div class="col-md-6 col-md-offset-3 form-container">
+        <h2>Feedback</h2>
+        <p>
+            Please provide your feedback below:
+        </p>
+        <form role="form" method="post" id="reused_form">
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                <label>How do you rate your overall experience?</label>
+                <p>
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="bad" >
+                    Bad
+                    </label>
+
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="average" >
+                    Average
+                    </label>
+
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="good" >
+                    Good
+                    </label>
+                </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="comments">
+                        Comments:</label>
+                    <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <label for="name">
+                        Your Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="email">
+                        Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
             </div>
 
-            <!-- Email input-->
-            <div class="form-group">
-              <label class="col-md-3 control-label" for="email">Phone no.</label>
-              <div class="col-md-9">
-                <input id="contact" name="contact" type="text" placeholder="8123 4567" class="form-control">
-              </div>
+                        <div class="row">
+                <div class="col-sm-12 form-group">
+                    <button type="submit" class="btn btn-lg btn-warning btn-block" >Post </button>
+                </div>
             </div>
 
-            <!-- Message body -->
-            <div class="form-group">
-              <label class="col-md-3 control-label" for="message">Your message</label>
-              <div class="col-md-9">
-                <textarea class="form-control" id="message" name="message" placeholder="Feedback on how you feel using this app or leave us suggestion on how can we further improve our website." rows="5"></textarea>
-              </div>
-            </div>
-
-            <!-- Form actions -->
-            <div class="form-group">
-              <div class="col-md-12 text-right">
-                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-              </div>
-            </div>
-          </fieldset>
-          </form>
+        </form>
+        <div id="success_message" style="width:100%; height:100%; display:none; ">
+            <h3>Posted your feedback successfully!</h3>
         </div>
-      </div>
-	</div>
+        <div id="error_message"
+                style="width:100%; height:100%; display:none; ">
+                    <h3>Error</h3>
+                    Sorry there was an error sending your form.
+
+        </div>
+    </div>
 </div>
-
-
 {%  endblock content %}
