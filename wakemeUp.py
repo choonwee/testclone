@@ -1,18 +1,21 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, flash, url_for, redirect
+from destinationForm import DestinationForm
+
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = '4f6c484fa2d098ccb271bf1f07173423'
 posts = [
     {
         "author": "Andy Lee",
-        "title":"Windy",
+        "title":"Handsome and Humble",
         "content":"first flask project1",
         "date_posted": "April 2nd 1998"
     },
     {
-        "author": "Gary Winthrope",
-        "title": "Great Guy Gary",
-        "content": "first flask project2",
-        "date_posted": "April 69nd 1969"
+        "author": "Great Guy Andy",
+        "title": "Who is the great guy on earth?",
+        "content": "Obviously Andy?",
+        "date_posted": "April 69th 1969"
     }
 ]
 
@@ -23,11 +26,6 @@ def home():
     return render_template("home.html", posts=posts)
 
 
-@app.route("/destination")
-def destination():
-    return render_template("destination.html", title="Destination")
-
-
 @app.route("/contactus")
 def contactus():
     return render_template("contactus.html", title="Contact Us")
@@ -36,6 +34,25 @@ def contactus():
 @app.route("/help")
 def help():
     return render_template("help.html", title="Help")
+
+
+@app.route("/destination", methods=['GET', 'POST'])
+def destination():
+    form = DestinationForm()
+    if form.validate_on_submit():
+        flash(f'You are in transit, on Bus {form.busNumber.data}!', 'success')
+        return redirect("transit")
+    return render_template("destinationForm.html", title="Destination", form=form)
+
+
+@app.route("/login")
+def login():
+    pass
+
+
+@app.route("/transit")
+def transit():
+    return render_template("inTransitpage.html", title="Transit")
 
 
 if __name__ == "__main__":
