@@ -17,7 +17,7 @@ def home():
 def contactus():
     form = ContactForm()
     if form.validate_on_submit():
-        flash(f"{form.name.data} ,{form.comment.data}", "help")
+        flash(f"{form.name.data} ,{form.comment.data}","secondary")
         return redirect("feedlist")
     return render_template("contact.html", title="Contact Us", form=form)
 

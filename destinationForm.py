@@ -21,3 +21,6 @@ class ContactForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     comment = TextAreaField("Feedback:", validators=[DataRequired()])
     submit1 = SubmitField("Submit ")
+
+
+
