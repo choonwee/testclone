@@ -1,32 +1,17 @@
 from flask import Flask, render_template, flash, url_for, redirect, request
-from destinationForm import DestinationForm
+from destinationForm import DestinationForm, BusRoutes
 from forms import ContactForm
 
 
 app = Flask(__name__)
 
 app.secret_key = 'development key'
-
-posts = [
-    {
-        "author": "Andy Lee",
-        "title":"Handsome and Humble",
-        "content":"first flask project1",
-        "date_posted": "April 2nd 1998"
-    },
-    {
-        "author": "Great Guy Andy",
-        "title": "Who is the great guy on earth?",
-        "content": "Obviously Andy?",
-        "date_posted": "April 69th 1969"
-    }
-]
-
+app.config['SECRET_KEY'] = '4f6c484fa2d098ccb271bf1f07173423'
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html", posts=posts)
+    return render_template("home.html")
 
 
 @app.route("/contactus", methods=["GET", "POST"])
@@ -36,6 +21,11 @@ def contactus():
         flash(f'You are in transit, on Bus {form.busNumber.data}!', 'danger')
         return redirect("transit")
     return render_template("contactus.html", title="Contact Us", form=form)
+
+
+@app.route("/login")
+def login():
+    pass
 
 
 @app.route("/help")
@@ -50,11 +40,6 @@ def destination():
         flash(f'You are in transit, on Bus {form.busNumber.data}!', 'danger')
         return redirect("transit")
     return render_template("destinationForm.html", title="Destination", form=form)
-
-
-@app.route("/login")
-def login():
-    pass
 
 
 @app.route("/transit")
@@ -75,6 +60,14 @@ def contact():
 
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
+
+
+@app.route('/busroutes', methods=['GET', 'POST'])
+def busroutes():
+    form = BusRoutes()
+    if form.validate_on_submit():
+        flash(f'{form.comment.data}!')
+    return render_template("busroutes.html", title="Bus Routes", form=form)
 
 
 if __name__ == "__main__":
