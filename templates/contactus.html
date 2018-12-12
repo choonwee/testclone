@@ -1,136 +1,50 @@
 {% extends "layout.html" %}
 {% block content %}
-
-    <script>
-$(function()
-{
-    function after_form_submitted(data)
-    {
-        if(data.result == 'success')
-        {
-            $('form#reused_form').hide();
-            $('#success_message').show();
-            $('#error_message').hide();
-        }
-        else
-        {
-            $('#error_message').append('<ul></ul>');
-
-            jQuery.each(data.errors,function(key,val)
-            {
-                $('#error_message ul').append('<li>'+key+':'+val+'</li>');
-            });
-            $('#success_message').hide();
-            $('#error_message').show();
-
-            //reverse the response on the button
-            $('button[type="button"]', $form).each(function()
-            {
-                $btn = $(this);
-                label = $btn.prop('orig_label');
-                if(label)
-                {
-                    $btn.prop('type','submit' );
-                    $btn.text(label);
-                    $btn.prop('orig_label','');
-                }
-            });
-
-        }//else
-    }
-
-	$('#reused_form').submit(function(e)
-      {
-        e.preventDefault();
-
-        $form = $(this);
-        //show some response on the button
-        $('button[type="submit"]', $form).each(function()
-        {
-            $btn = $(this);
-            $btn.prop('type','button' );
-            $btn.prop('orig_label',$btn.text());
-            $btn.text('Sending ...');
-        });
-
-
-                    $.ajax({
-                type: "POST",
-                url: 'handler.php',
-                data: $form.serialize(),
-                success: after_form_submitted,
-                dataType: 'json'
-            });
-
-      });
-});
-</script>
-
-    <div class="imagebg"></div>
-<div class="row " style="margin-top: 50px">
-    <div class="col-md-6 col-md-offset-3 form-container">
-        <h2>Feedback</h2>
-        <p>
-            Please provide your feedback below:
-        </p>
-        <form role="form" method="post" id="reused_form">
-            <div class="row">
-                <div class="col-sm-12 form-group">
-                <label>How do you rate your overall experience?</label>
-                <p>
-                    <label class="radio-inline">
-                    <input type="radio" name="experience" id="radio_experience" value="bad" >
-                    Bad
-                    </label>
-
-                    <label class="radio-inline">
-                    <input type="radio" name="experience" id="radio_experience" value="average" >
-                    Average
-                    </label>
-
-                    <label class="radio-inline">
-                    <input type="radio" name="experience" id="radio_experience" value="good" >
-                    Good
-                    </label>
-                </p>
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <div style="font-weight: bold;">
+                    <legend class="border-bottom mb-4">Journey Details</legend>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 form-group">
-                    <label for="comments">
-                        Comments:</label>
-                    <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                <div class="form-group">
+                    <div style="font-size:20px;">
+                        {{ form.journeyName.label(class="form-control-label") }}
+                    </div>
+                        {{ form.journeyName(class="form-control form-control-lg") }}
+                    <small class="form-text text-muted">Eg. Going Home</small>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 form-group">
-                    <label for="name">
-                        Your Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                <div class="form-group">
+                    {{ form.busNumber.label(class="form-control-label") }}
+                    <div style="width: 25%;">
+                        {{ form.busNumber(class="form-control form-control-lg") }}
+                    </div>
                 </div>
-                <div class="col-sm-6 form-group">
-                    <label for="email">
-                        Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        {{ form.journeyFrom.label(class="form-control-label") }}
+                        {{ form.journeyFrom(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ form.journeyTo.label(class="form-control-label") }}
+                        {{ form.journeyTo(class="form-control form-control-lg") }}
+                    </div>
                 </div>
-            </div>
-
-                        <div class="row">
-                <div class="col-sm-12 form-group">
-                    <button type="submit" class="btn btn-lg btn-warning btn-block" >Post </button>
+                <div class="form-group">
+                    {{ form.alertMe.label(class="form-control-label") }}
+                    <div style="width: 25%;">
+                        {{ form.alertMe(class="form-control form-control-lg") }}
+                    </div>
                 </div>
-            </div>
-
+            </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
         </form>
-        <div id="success_message" style="width:100%; height:100%; display:none; ">
-            <h3>Posted your feedback successfully!</h3>
-        </div>
-        <div id="error_message"
-                style="width:100%; height:100%; display:none; ">
-                    <h3>Error</h3>
-                    Sorry there was an error sending your form.
-
-        </div>
     </div>
-</div>
-{%  endblock content %}
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+        </small>
+    </div>
+{% endblock content %}
