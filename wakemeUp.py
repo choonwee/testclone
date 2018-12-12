@@ -1,9 +1,12 @@
-from flask import Flask, render_template, flash, url_for, redirect
+from flask import Flask, render_template, flash, url_for, redirect, request
 from destinationForm import DestinationForm, FeedbackForm
+from forms import ContactForm
+
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = '4f6c484fa2d098ccb271bf1f07173423'
+app.secret_key = 'development key'
+
 posts = [
     {
         "author": "Andy Lee",
@@ -57,6 +60,21 @@ def login():
 @app.route("/transit")
 def transit():
     return render_template("inTransitpage.html", title="Transit")
+
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            flash('All fields are required.')
+            return render_template('contact.html', form=form)
+        else:
+            return 'Form posted.'
+
+    elif request.method == 'GET':
+        return render_template('contact.html', form=form)
 
 
 if __name__ == "__main__":
