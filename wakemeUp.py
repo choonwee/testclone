@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, url_for, redirect
-from destinationForm import DestinationForm
+from destinationForm import DestinationForm, FeedbackForm
 
 app = Flask(__name__)
 
@@ -26,9 +26,13 @@ def home():
     return render_template("home.html", posts=posts)
 
 
-@app.route("/contactus")
+@app.route("/contactus", methods=["GET", "POST"])
 def contactus():
-    return render_template("contactus.html", title="Contact Us")
+    form = FeedbackForm()
+    if form.validate_on_submit():
+        flash(f'You are in transit, on Bus {form.busNumber.data}!', 'danger')
+        return redirect("transit")
+    return render_template("contactus.html", title="Contact Us", form=form)
 
 
 @app.route("/help")
@@ -40,7 +44,7 @@ def help():
 def destination():
     form = DestinationForm()
     if form.validate_on_submit():
-        flash(f'You are in transit, on Bus {form.busNumber.data}!', 'success')
+        flash(f'You are in transit, on Bus {form.busNumber.data}!', 'danger')
         return redirect("transit")
     return render_template("destinationForm.html", title="Destination", form=form)
 
