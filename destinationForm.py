@@ -13,3 +13,7 @@ class DestinationForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
+class BusRoutes(FlaskForm):
+    comment = StringField("Comment for the boys", validators=[DataRequired()])
+
+
