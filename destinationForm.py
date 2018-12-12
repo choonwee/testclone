@@ -19,4 +19,5 @@ class BusRoutes(FlaskForm):
 
 class ContactForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
-    comment = TextAreaField("Comment Me", validators=[DataRequired()])
+    comment = TextAreaField("Feedback:", validators=[DataRequired()])
+    submit1 = SubmitField("Submit ")

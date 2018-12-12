@@ -17,8 +17,8 @@ def home():
 def contactus():
     form = ContactForm()
     if form.validate_on_submit():
-        flash(f'You are in transit, on Bus {form.busNumber.data}!', 'danger')
-        return redirect("transit")
+        flash(f"{form.name.data} ,{form.comment.data}", "help")
+        return redirect("feedlist")
     return render_template("contact.html", title="Contact Us", form=form)
 
 
@@ -52,6 +52,12 @@ def busroutes():
     if form.validate_on_submit():
         flash(f'{form.comment.data}!')
     return render_template("busroutes.html", title="Bus Routes", form=form)
+
+@app.route("/feedlist")
+def feedlist():
+    return render_template("feedlist.html", title="Feedlist")
+
+
 
 
 if __name__ == "__main__":
