@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField
+from wtforms import StringField, SubmitField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 
@@ -17,3 +17,6 @@ class BusRoutes(FlaskForm):
     comment = StringField("Comment for the boys", validators=[DataRequired()])
 
 
+class ContactForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    comment = TextAreaField("Comment Me", validators=[DataRequired()])
