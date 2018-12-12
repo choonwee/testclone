@@ -51,7 +51,7 @@ def busroutes():
     form = BusRoutes()
     if form.validate_on_submit():
         flash(f'{form.comment.data}!')
-    return render_template("busroutes.html", title="Bus Routes", form=form)
+    return render_template('busroutes.html', title="Bus Routes", form=form)
 
 
 if __name__ == "__main__":
