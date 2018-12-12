@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, url_for, redirect, request
-from destinationForm import DestinationForm, FeedbackForm
+from destinationForm import DestinationForm
 from forms import ContactForm
 
 
