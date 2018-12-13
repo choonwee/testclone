@@ -1,4 +1,4 @@
-.container{
+.containerbus{
     height: 100px;
     width: 100%;
     border-color: black;
@@ -8,7 +8,7 @@
     border-bottom: none;
     border-radius: 5px;
 }
-#content{
+#contentb{
     height: 300px;
     width: 100%;
     border-color: black;

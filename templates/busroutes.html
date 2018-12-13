@@ -1,6 +1,6 @@
 {% extends "layoutWOsidebar.html" %}
 {% block content %}
-    <div id="route1" class="container">
+    <div id="route1" class="containerbus">
         <div class="row">
             <div class="panel-heading">
                 <a class="btn btn-primay" id="arrow" data-toggle="collapse" data-target="#content">
@@ -8,10 +8,11 @@
                 </a>
                 <p id="p1">School</p>
             </div>
-            <div class="panel-body collapse" id="content">
+            <div class="panel-body collapse" id="contentb">
                 <p id="p2">Ang Mio Kio &#8674; Yishun</p>
                 <form method="get" action="/">
                     {{form.comment(class="form-control form-control-lg")}}
+                    {{form.submit(class="btn btn-primary")}}
                 </form>
                 <iframe id="map" src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d63818.0574463594!2d103.80778102868189!3d1.3992523956842673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x31da16c40ac82661%3A0x500f7acaedaa550!2sAng+Mo+Kio!3m2!1d1.3691149!2d103.8454342!4m5!1s0x31da146f8c7ca673%3A0xb4af6f11d53cc3bf!2sYishun!3m2!1d1.4294295!2d103.83502829999999!5e0!3m2!1sen!2ssg!4v1544514242264" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
             </div>

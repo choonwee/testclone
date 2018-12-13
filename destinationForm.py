@@ -15,7 +15,7 @@ class DestinationForm(FlaskForm):
 
 class BusRoutes(FlaskForm):
     comment = StringField("Comment for the boys", validators=[DataRequired()])
-
+    submit = SubmitField("Submit")
 
 class ContactForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
