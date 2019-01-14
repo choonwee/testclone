@@ -1,2 +1,2 @@
-web: gunicorn wakemeUp:app
+web: gunicorn testRun:app
 
