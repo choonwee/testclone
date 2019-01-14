@@ -13,6 +13,11 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/test")
+def test():
+    return render_template("test.html")
+
+
 @app.route("/contactus", methods=["GET", "POST"])
 def contactus():
     form = ContactForm()
@@ -61,4 +66,6 @@ def feedlist():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port="80")
+
+
